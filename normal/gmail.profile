@@ -14,9 +14,16 @@ https-certificate {
 
 set sleeptime "60000";
 set pipename "interprocess_##";
-set spawnto "userinit.exe";
 set jitter "15";
-set dns_idle "8.8.4.4";
+
+dns-beacon {
+    set dns_idle "8.8.4.4";
+}
+
+post-ex {
+    set spawnto_x86 "%windir%\\syswow64\\userinit.exe";
+    set spawnto_x64 "%windir%\\sysnative\\userinit.exe";
+}
 
 http-get {
 	set uri "/_/scs/mail-static/_/js/";

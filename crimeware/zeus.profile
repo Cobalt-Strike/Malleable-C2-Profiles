@@ -9,8 +9,11 @@ set sample_name "ZeuS";
 
 set sleeptime "30000";
 set jitter    "5";
-set maxdns    "255";
 set useragent "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; SV1)";
+
+dns-beacon {
+    set maxdns    "255";
+}
 
 # Sample from: https://malshare.com/sample.php?action=detail&hash=1da10c6412b79fe8ffcbb5d1901144ee
 stage {

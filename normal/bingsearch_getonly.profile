@@ -17,8 +17,11 @@ https-certificate {
 set sleeptime "60000";
 set jitter    "20";
 set useragent "Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko";
-set dns_idle "8.8.4.4";
-set maxdns    "235";
+
+dns-beacon {
+    set dns_idle "8.8.4.4";
+    set maxdns "235";
+}
 
 http-get {
 

@@ -10,11 +10,10 @@ set sample_name "Meterpreter";
 set sleeptime "100";
 
 # what else would we spawn to?
-set spawnto_x86 "%windir%\\syswow64\\notepad.exe";
-set spawnto_x64 "%windir%\\sysnative\\notepad.exe";
-
-# process injection tweak
-set hijack_remote_thread "false";
+post-ex {
+    set spawnto_x86 "%windir%\\syswow64\\notepad.exe";
+    set spawnto_x64 "%windir%\\sysnative\\notepad.exe";
+}
 
 # propagate user-agent to all transactions
 set useragent "Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko";

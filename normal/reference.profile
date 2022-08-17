@@ -7,15 +7,8 @@
 
 set sample_name "Test Profile";
 set data_jitter "0";
-set dns_idle "0.0.0.0";
-set dns_max_txt "252";
-set dns_sleep "0";
-set dns_stager_prepend "";
-set dns_stager_subhost ".stage.123456.";
-set dns_ttl "1";
 set host_stage "true"; #Host payload for staging over set, setS, or DNS. Required by stagers.
 set jitter "0";
-set maxdns "255";
 set pipename "msagent_###"; #Default name of pipe to use for SMB Beacon’s peer-to-peer communication. Each # is replaced witha random hex value.
 set pipename_stager "status_##";
 set sleeptime "60000"; #def sleep in ms
@@ -25,6 +18,16 @@ set ssh_banner "Cobalt Strike 4.2";
 set ssh_pipename "postex_ssh_####";
 set tcp_frame_header "";
 set tcp_port "4444";
+
+dns-beacon {
+    set maxdns "255";
+    set dns_idle "0.0.0.0";
+    set dns_max_txt "252";
+    set dns_sleep "0";
+    set dns_stager_prepend "";
+    set dns_stager_subhost ".stage.123456.";
+    set dns_ttl "1";
+}
 
 # Defaults for ALL CS set server responses
 
@@ -300,6 +303,7 @@ process-inject {
         execute {
             CreateThread "ntdll.dll!RtlUserThreadStart";
             SetThreadContext;
+            CreateRemoteThread;
             RtlCreateUserThread;
         }
 }
