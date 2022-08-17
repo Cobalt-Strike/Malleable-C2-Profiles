@@ -7,8 +7,11 @@
 
 set sleeptime "30000"; # use a ~30s delay between callbacks
 set jitter    "20";
-set maxdns    "255";
 set useragent "Mozilla/4.0 (compatible; MSIE 6.0;Windows NT 5.1)";
+
+dns-beacon {
+    set maxdns    "255";
+}
 
 http-get {
 

@@ -8,8 +8,11 @@ set sample_name "Etumbot";
 
 set sleeptime "5000";
 set jitter    "0";
-set maxdns    "255";
 set useragent "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/5.0)";
+
+dns-beacon {
+    set maxdns    "255";
+}
 
 http-get {
 

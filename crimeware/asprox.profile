@@ -8,8 +8,11 @@ set sample_name "Asprox Botnet";
 
 set sleeptime "30000"; # use a ~30s delay between callbacks
 set jitter    "20"; # throw in a 10% jitter
-set maxdns    "255";
 set useragent "Mozilla/4.0 (compatible; MSIE 6.0b; Windows NT 5.0; .NET CLR 1.0.2914)";
+
+dns-beacon {
+    set maxdns    "255";
+}
 
 http-get {
 

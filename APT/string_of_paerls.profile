@@ -8,8 +8,11 @@ set sample_name "String of Paerls";
 
 set sleeptime "30000"; # use a ~30 second main interval
 set jitter    "30"; # 35% jitter
-set maxdns    "255";
 set useragent "Mozilla/4.0";
+
+dns-beacon {
+    set maxdns    "255";
+}
 
 http-get {
 

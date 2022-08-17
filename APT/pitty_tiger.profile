@@ -10,8 +10,11 @@ set sample_name "Pitty Tiger RAT";
 
 set sleeptime "30000"; # use a ~30s delay between callbacks
 set jitter    "20"; 
-set maxdns    "255";
 set useragent "Microsoft Internet Explorer";
+
+dns-beacon {
+    set maxdns    "255";
+}
 
 http-get {
 

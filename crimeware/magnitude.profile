@@ -8,8 +8,11 @@ set sample_name "Magnitude Exploit Kit";
 
 set sleeptime "45000"; # use a ~45s delay between callbacks
 set jitter    "50"; # throw in a 50% jitter
-set maxdns    "255";
 set useragent "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)";
+
+dns-beacon {
+    set maxdns    "255";
+}
 
 http-get {
 

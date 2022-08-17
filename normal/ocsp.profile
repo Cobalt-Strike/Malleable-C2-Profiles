@@ -7,9 +7,11 @@
 
 set sleeptime "20000"; # Use a 20s interval
 set jitter    "20"; # 20% jitter
-set maxdns    "255";
 set useragent "Microsoft-CryptoAPI/6.1";
 
+dns-beacon {
+    set maxdns "255";
+}
 
 http-get {
 

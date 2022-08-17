@@ -8,7 +8,10 @@ set sample_name "Fiesta Exploit Kit";
 
 set sleeptime "30000"; # use a ~30s delay between callbacks
 set jitter    "10"; # throw in a 10% jitter
-set maxdns    "255";
+
+dns-beacon {
+    set maxdns    "255";
+}
 
 http-get {
 

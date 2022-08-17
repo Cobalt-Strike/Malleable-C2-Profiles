@@ -6,8 +6,11 @@
 
 set sleeptime "5000";
 set jitter    "0";
-set maxdns    "255";
 set useragent "Shockwave Flash";
+
+dns-beacon {
+    set maxdns "255";
+}
 
 http-get {
 

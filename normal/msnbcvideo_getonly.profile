@@ -24,14 +24,16 @@ set jitter    "20";
 #default useragent for HTTP comms
 set useragent "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
 
-#IP address used to indicate no tasks are available to DNS Beacon
-set dns_idle "8.8.4.4";
+dns-beacon {
+    #IP address used to indicate no tasks are available to DNS Beacon
+    set dns_idle "8.8.4.4";
 
-#Force a sleep prior to each individual DNS request. (in milliseconds)
-set dns_sleep "0";
+    #Force a sleep prior to each individual DNS request. (in milliseconds)
+    set dns_sleep "0";
 
-#Maximum length of hostname when uploading data over DNS (0-255)
-set maxdns    "235";
+    #Maximum length of hostname when uploading data over DNS (0-255)
+    set maxdns    "235";
+}
 
 http-get {
 
