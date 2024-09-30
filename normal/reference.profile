@@ -218,7 +218,6 @@ http-post {
 
 stage {
     
-
 #    The transform-x86 and transform-x64 blocks pad and transform Beacon’s
 # Reflective DLL stage. These blocks support three commands: prepend, append, and strrep.
     transform-x86 {
@@ -257,6 +256,19 @@ stage {
     # Obfuscate Beacon, in-memory, prior to sleeping
     set sleep_mask "false";
 
+    # beacon_gate may be set to:
+    # ALL (Comms + Core + Cleanup)
+    # COMMS (InternetOpenA and InternetConnectA)
+    # CORE (Windows API equivalents (i.e., VirtualAlloc) of Beacon’s existing system call API)
+    # CLEANUP proxying ExitThread via the Sleepmask
+    # or specific supported APIs as shown below
+    # beacon_gate ignored when sleep_mask is set to false
+    beacon_gate {
+      VirtualAlloc;
+      VirtualAllocEx;
+      InternetConnectA;
+    }
+
     # Use embedded function pointer hints to bootstrap Beacon agent without 
     # walking kernel32 EAT
     set smartinject "true";
@@ -270,7 +282,7 @@ stage {
     set userwx "false";
 
     # PE header cloning - see "petool", skipped for now
-    set compile_time "14 Jul 2018 8:14:00";
+    set compile_time "14 Sep 2018 08:14:00";
 #    set image_size_x86 "512000";
 #    set image_size_x64 "512000";
     set entry_point "92145";
@@ -279,6 +291,7 @@ stage {
     #set name "beacon.x64.dll" 
     
     #set rich_header  # I don't understand this yet TODO: fixme
+    
 
     #TODO: add examples process-inject 
 }
@@ -330,7 +343,6 @@ post-ex {
     # options are: GetAsyncKeyState (def) or SetWindowsHookEx
     set keylogger "GetAsyncKeyState";
 }
-
 
 
 
