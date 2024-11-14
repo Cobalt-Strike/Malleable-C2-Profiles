@@ -9,6 +9,7 @@ set sample_name "Test Profile";
 set data_jitter "0";
 set host_stage "true"; #Host payload for staging over set, setS, or DNS. Required by stagers.
 set jitter "0";
+set tasks_max_size "2097152"; # The maximum size (in bytes) of task(s) and proxy data that can be transferred through a communication channel at a check in
 set pipename "msagent_###"; #Default name of pipe to use for SMB Beacon’s peer-to-peer communication. Each # is replaced witha random hex value.
 set pipename_stager "status_##";
 set sleeptime "60000"; #def sleep in ms
