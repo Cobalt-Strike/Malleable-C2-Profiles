@@ -257,6 +257,9 @@ stage {
     # Obfuscate Beacon, in-memory, prior to sleeping
     set sleep_mask "false";
 
+    # Supports: None, Direct, and Indirect. Superseded by beacon_gate
+    set syscall_method "None";
+
     # beacon_gate may be set to:
     # ALL (Comms + Core + Cleanup)
     # COMMS (InternetOpenA and InternetConnectA)
