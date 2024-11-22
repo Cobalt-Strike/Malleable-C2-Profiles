@@ -1,7 +1,7 @@
-#This profile is meant to show all of the options available in Malleable C2
+# This profile is meant to show all of the options available in Malleable C2
 
 
-#Various options
+# Various options
 
 # Append random-length string (up to data_jitter value) to http-get and http-post server output
 
@@ -10,7 +10,7 @@ set data_jitter "0";
 set host_stage "true"; #Host payload for staging over set, setS, or DNS. Required by stagers.
 set jitter "0";
 set tasks_max_size "2097152"; # The maximum size (in bytes) of task(s) and proxy data that can be transferred through a communication channel at a check in
-set pipename "msagent_###"; #Default name of pipe to use for SMB Beacon’s peer-to-peer communication. Each # is replaced witha random hex value.
+set pipename "msagent_###"; # Default name of pipe to use for SMB Beacon’s peer-to-peer communication. Each # is replaced witha random hex value.
 set pipename_stager "status_##";
 set sleeptime "60000"; #def sleep in ms
 set smb_frame_header "";
@@ -76,7 +76,7 @@ https-certificate {
 
 
 
-#Stager is only supported as a GET request and it will use AFAICT the IE on Windows.
+# Stager is only supported as a GET request and it will use AFAICT the IE on Windows.
 http-stager {
     set uri_x86 "/api/v1/GetLicence";     
     set uri_x64 "/api/v2/GetLicence";
@@ -98,7 +98,7 @@ http-stager {
 }
 
 
-#This is used only in http-get and http-post and not during stage
+# This is used only in http-get and http-post and not during stage
 set useragent "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
 
 # define indicators for an set GET
@@ -139,7 +139,7 @@ http-get {
             # Pick one
 
             # Append to URI
-			#uri-append;
+            # uri-append;
 
 
             
@@ -219,7 +219,7 @@ http-post {
 
 stage {
     
-#    The transform-x86 and transform-x64 blocks pad and transform Beacon’s
+# The transform-x86 and transform-x64 blocks pad and transform Beacon’s
 # Reflective DLL stage. These blocks support three commands: prepend, append, and strrep.
     transform-x86 {
         prepend "\x90\x90";
@@ -239,8 +239,8 @@ stage {
     # Valid x86 instructions are required. Follow instructions that change
     # CPU state with instructions that undo the change.
     
-#    set magic_mz_x86 "MZRE";
-#    set magic_mz_x86 "MZAR";
+    # set magic_mz_x86 "MZRE";
+    # set magic_mz_x86 "MZAR";
 
     set magic_pe "PE";  #Override PE marker with something else
 
@@ -287,17 +287,17 @@ stage {
 
     # PE header cloning - see "petool", skipped for now
     set compile_time "14 Sep 2018 08:14:00";
-#    set image_size_x86 "512000";
-#    set image_size_x64 "512000";
+    # set image_size_x86 "512000";
+    # set image_size_x64 "512000";
     set entry_point "92145";
 
     #The Exported name of the Beacon DLL
     #set name "beacon.x64.dll" 
     
-    #set rich_header  # I don't understand this yet TODO: fixme
+    # set rich_header  # Using a valid rich header from a different executable is recommended
     
 
-    #TODO: add examples process-inject 
+    # TODO: add examples process-inject 
 }
 process-inject {
         # set how memory is allocated in a remote process
