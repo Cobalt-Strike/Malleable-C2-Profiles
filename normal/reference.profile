@@ -42,12 +42,7 @@ http-config {
 # X-Forwarded-For set header to determine the remote address of a request. 
 # Use this option if your Cobalt Strike server is behind an set redirector    
     set trust_x_forwarded_for "true";
-
-    
-
 }
-
-
 
 https-certificate {
     set C "US"; #Country
@@ -64,7 +59,6 @@ https-certificate {
 
 }
 
-
 #If you have code signing cert:
 #code-signer {
 #    set keystore "keystore.jks";
@@ -73,8 +67,6 @@ https-certificate {
 #    set timestamp "false";
 #    set timestamp_url "set://timestamp.digicert.com";
 #}
-
-
 
 # Stager is only supported as a GET request and it will use AFAICT the IE on Windows.
 http-stager {
@@ -96,7 +88,6 @@ http-stager {
         }
     }
 }
-
 
 # This is used only in http-get and http-post and not during stage
 set useragent "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
@@ -211,14 +202,10 @@ http-post {
             append "\x7F\x01\xDD\xAF\x58\x52\x07\x00";			
 			print;
 		}
-
-        
 	}
 }
 
-
 stage {
-    
 # The transform-x86 and transform-x64 blocks pad and transform Beacon’s
 # Reflective DLL stage. These blocks support three commands: prepend, append, and strrep.
     transform-x86 {
@@ -296,9 +283,8 @@ stage {
     
     # set rich_header  # Using a valid rich header from a different executable is recommended
     
-
-    # TODO: add examples process-inject 
 }
+
 process-inject {
         # set how memory is allocated in a remote process
         # VirtualAllocEx or NtMapViewOfSection. The
@@ -324,6 +310,7 @@ process-inject {
             RtlCreateUserThread;
         }
 }
+
 post-ex {
     # control the temporary process we spawn to
     set spawnto_x86 "%windir%\\syswow64\\WerFault.exe";
