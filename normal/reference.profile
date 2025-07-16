@@ -322,7 +322,7 @@ stage {
     # Requires the stage.rdll_loader is set to PrependLoader
     transform-obfuscate {
         lznt1;      # LZNT1 compression
-        rc4 "128";  # RC4 encryption - Key length parameter: 8-2048
+        rc4 "128";  # RC4 encryption - Key length parameter: 8-128
         xor "64";   # xor encryption - Key length parameter: 8-2048
         base64;     # encodes using base64 encoding
     }
@@ -403,7 +403,7 @@ stage {
     set entry_point "92145";
 
     #The Exported name of the Beacon DLL
-    #set name "beacon.x64.dll" 
+    #set name "beacon.x64.dll";
     
     # set rich_header  # Using a valid rich header from a different executable is recommended
     
