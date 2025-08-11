@@ -1,6 +1,6 @@
 # Malleable C2 Profiles
 
-<center><img width="30%" height="30%" alt="disguised_cs_guy" src="https://github.com/user-attachments/assets/1e858fed-783a-4265-9e02-719e4a09d169" /></center>
+<center><img width="20%" height="20%" alt="disguised_cs_guy" src="https://github.com/user-attachments/assets/1e858fed-783a-4265-9e02-719e4a09d169" /></center>
 
 A Malleable C2 profile is a simple program that modifies the behavior of the Cobalt Strike Beacon. 
 
