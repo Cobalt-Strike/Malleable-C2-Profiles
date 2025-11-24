@@ -315,8 +315,10 @@ stage {
 
     set copy_pe_header         "true";          # copy Beacon to new memory location with its DLL headers
     set eaf_bypass             "true";          # enable PrependLoader to use Export Address Table Filtering bypass
-    set rdll_loader            "PrependLoader"; # PrependLoader | StompLoader
+    set rdll_loader            "PrependLoader"; # PrependLoader only as StompLoader is no longer supported.
     set rdll_use_syscalls      "true";          # Prepend loader should use indirect system calls when loading the Beacon payload.
+    set rdll_use_driploading   "false";         # enable driploading in the Cobalt Strike built-in reflective loader. default is false.
+    set rdll_dripload_delay    "100";           # set the amount of delay when using driploading. default is 100 milliseconds.
 
     # This performs additional transformations to the Beacon’s DLL payload
     # Requires the stage.rdll_loader is set to PrependLoader
@@ -416,6 +418,8 @@ process-inject {
     # The NtMapViewOfSection option is for same-architecture injection only.
     # VirtualAllocEx is always used for cross-arch memory allocations.
     set allocator "VirtualAllocEx";
+    set use_driploading   "false";         # enable driploading in the Cobalt Strike during process injection. default is false.
+    set dripload_delay    "100";           # set the amount of delay when using driploading. default is 100 milliseconds.
 
     # shape the memory characteristics and content
     set min_alloc "16384";
