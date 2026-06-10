@@ -10,6 +10,7 @@ set pipename "msagent_###"; # Default name of pipe to use for SMB Beacon’s pee
 set pipename_stager "status_##";
 set smb_frame_header "";
 set ssh_banner "Cobalt Strike 4.2";
+set checkin_delay "1000"; # Delay after reflective loading, before initial checkin
 
 set sleeptime "60000"; # default sleep in ms
 set jitter "0"; # Sleep jitter (0-99%)
@@ -315,7 +316,7 @@ stage {
 
     set copy_pe_header         "true";          # copy Beacon to new memory location with its DLL headers
     set eaf_bypass             "true";          # enable PrependLoader to use Export Address Table Filtering bypass
-    set rdll_loader            "PrependLoader"; # PrependLoader only as StompLoader is no longer supported.
+    # set rdll_loader            "PrependLoader"; # Removed in 4.13
     set rdll_use_syscalls      "true";          # Prepend loader should use indirect system calls when loading the Beacon payload.
     set rdll_use_driploading   "false";         # enable driploading in the Cobalt Strike built-in reflective loader. default is false.
     set rdll_dripload_delay    "100";           # set the amount of delay when using driploading. default is 100 milliseconds.
@@ -352,7 +353,7 @@ stage {
     # CPU state with instructions that undo the change.
     
     # set magic_mz_x86 "MZRE";
-    # set magic_mz_x86 "MZAR";
+    # set magic_mz_x64 "MZAR";
 
     set magic_pe "PE";  #Override PE marker with something else
 
@@ -374,10 +375,10 @@ stage {
 
     # See: https://hstechdocs.helpsystems.com/manuals/cobaltstrike/current/userguide/content/topics/beacon-gate.htm
     # beacon_gate may be set to:
-    # ALL (Comms + Core + Cleanup)
-    # COMMS (InternetOpenA and InternetConnectA)
-    # CORE (Windows API equivalents (i.e., VirtualAlloc) of Beacon’s existing system call API)
-    # CLEANUP proxying ExitThread via the Sleepmask
+    # All (Comms + Core + Cleanup)
+    # Comms (InternetOpenA and InternetConnectA)
+    # Core (Windows API equivalents (i.e., VirtualAlloc) of Beacon’s existing system call API)
+    # Cleanup proxying ExitThread via the Sleepmask
     # or specific supported APIs as shown below
     # beacon_gate ignored when sleep_mask is set to false
     beacon_gate {
@@ -388,12 +389,11 @@ stage {
 
     # Use embedded function pointer hints to bootstrap Beacon agent without 
     # walking kernel32 EAT
-    set smartinject "false"; # Requires .stage.rdll_loader = StompLoader
+    # set smartinject "false"; # Removed in 4.13
 
     # Ask ReflectiveLoader to stomp MZ, PE, and e_lfanew values after 
     # it loads Beacon payload
     set stomppe "true";
-
 
     # Ask ReflectiveLoader to use (true) or avoid RWX permissions (false) for Beacon DLL in memory
     set userwx "false";
@@ -404,8 +404,8 @@ stage {
     # set image_size_x64 "512000";
     set entry_point "92145";
 
-    #The Exported name of the Beacon DLL
-    #set name "beacon.x64.dll";
+    # The Exported name of the Beacon DLL
+    # set name "beacon.x64.dll"; # Removed in 4.13
     
     # set rich_header  # Using a valid rich header from a different executable is recommended
     
